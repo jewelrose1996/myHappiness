@@ -66,7 +66,6 @@ public class main extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         delete = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -125,11 +124,11 @@ public class main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Item No.", "Description", "Unit", "Quantity", "Cost (per unit)", "Total Amount", "Date Recorded", "Available Items"
+                "Item No.", "Description", "Unit", "Quantity", "Cost (per unit)", "Item Type", "Total Amount", "Date Recorded", "Available Items"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -168,9 +167,7 @@ public class main extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("jButton5");
-
-        jButton6.setText("Exit");
+        jButton5.setText("LOG-OUT");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -193,7 +190,6 @@ public class main extends javax.swing.JFrame {
                                 .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
                                 .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                                .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(delete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
@@ -218,8 +214,6 @@ public class main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(delete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton5)
                         .addGap(23, 23, 23))))
         );
@@ -514,6 +508,11 @@ public class main extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton1KeyPressed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(204, 204, 204));
         jButton2.setText("Sign Up");
@@ -538,6 +537,17 @@ public class main extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Georgia", 0, 12)); // NOI18N
         jLabel4.setText("Password:");
+
+        password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordActionPerformed(evt);
+            }
+        });
+        password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                passwordKeyPressed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -723,7 +733,7 @@ public class main extends javax.swing.JFrame {
         update.setVisible(false);
         delete.setVisible(false);
         this.setVisible(false);
-        
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
@@ -792,10 +802,10 @@ public class main extends javax.swing.JFrame {
         type.setVisible(false);
         updatebtn.setVisible(true);
         jLabel13.setVisible(false);
-       
+
         int row = supplies.getSelectedRow();
-       // Object obj = supplies.getValueAt(row, 0);
-         String itemNo= (supplies.getModel().getValueAt(row, 0).toString());
+        // Object obj = supplies.getValueAt(row, 0);
+        String itemNo = (supplies.getModel().getValueAt(row, 0).toString());
         //String itemNo = obj.toString();
 
         if (itemNo == null) {
@@ -881,11 +891,11 @@ public class main extends javax.swing.JFrame {
             this.disTableSupply();
 
             this.refresh();
-        
-        description.setText("");
-        unit.setSelectedIndex(0);
-        quantity.setText("");
-        uCost.setText("");
+
+            description.setText("");
+            unit.setSelectedIndex(0);
+            quantity.setText("");
+            uCost.setText("");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -904,13 +914,88 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-        // TODO add your handling code here:
+        int row = supplies.getSelectedRow();
+        Object obj = supplies.getValueAt(row, 0);
+        String id = obj.toString();
+
+        if (id == null) {
+            JOptionPane.showMessageDialog(rootPane, "Please select row!");
+        } else {
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                com.mysql.jdbc.Connection con = (com.mysql.jdbc.Connection) DriverManager.getConnection("jdbc:mysql://localhost/storage", "root", "");
+
+                String sql = "delete from supply where itemNo = ?";
+
+                com.mysql.jdbc.PreparedStatement pstmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(sql);
+
+                pstmt.setString(1, id);
+
+                int x = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this data?");
+
+                if (x == JOptionPane.YES_OPTION) {
+                    pstmt.executeUpdate();
+                    JOptionPane.showMessageDialog(rootPane, "Deleted");
+                    this.disTableSupply();
+                }
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        // TODO add your handling code here:
     }//GEN-LAST:event_deleteActionPerformed
 
     private void suppliesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suppliesMouseClicked
-     update.setVisible(true);
-     delete.setVisible(true);
+        update.setVisible(true);
+        delete.setVisible(true);
     }//GEN-LAST:event_suppliesMouseClicked
+
+    private void jButton1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1KeyPressed
+
+    private void passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordKeyPressed
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+invenFrame.setVisible(true);
+        invenFrame.setLocationRelativeTo(null);
+        //this.setVisible(false);
+
+        String un = username.getText();
+        String pw = String.valueOf(password.getPassword());
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(new connection().connect);
+            String query = "SELECT * FROM user WHERE username=? AND password=md5(?)";
+
+            PreparedStatement pstmt = con.prepareStatement(query);
+
+            pstmt.setString(1, un);
+            pstmt.setString(2, pw);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                invenFrame.setVisible(true);
+                invenFrame.setLocationRelativeTo(null);
+                this.dispose();
+
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Invalid", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -959,7 +1044,6 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
@@ -1026,7 +1110,7 @@ public class main extends javax.swing.JFrame {
     }
 
     public void codez() {
-        
+
         update.setVisible(false);
         delete.setVisible(false);
         String des = description.getText();
@@ -1102,7 +1186,7 @@ public class main extends javax.swing.JFrame {
             model.setRowCount(0);
             while (rs.next()) {
                 model.addRow(new Object[]{rs.getInt("itemNo"), rs.getString("description"),
-                    rs.getString("unit"), rs.getInt("quant"), rs.getInt("ucost"), rs.getInt("result"), rs.getString("date_s")});
+                    rs.getString("unit"), rs.getInt("quant"), rs.getInt("ucost"), rs.getString("type"), rs.getInt("result"), rs.getString("date_s")});
             }
 
             this.refresh();
@@ -1127,7 +1211,7 @@ public class main extends javax.swing.JFrame {
             model.setRowCount(0);
             while (rs.next()) {
                 model.addRow(new Object[]{rs.getInt("itemNo"), rs.getString("description"),
-                    rs.getString("unit"), rs.getInt("quant"), rs.getInt("ucost"), rs.getInt("result"), rs.getString("date_s")});
+                    rs.getString("unit"), rs.getInt("quant"), rs.getInt("ucost"), rs.getString("type"), rs.getInt("result"), rs.getString("date_s")});
             }
 
         } catch (ClassNotFoundException ex) {

@@ -1,4 +1,6 @@
 
+import java.awt.Color;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -34,7 +36,8 @@ public class main extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         codee = "supply";
         disTableSupply();
-        this.refresh();
+        disTableRequest();
+        this.refreshSupply();
         update.setVisible(false);
         delete.setVisible(false);
     }
@@ -61,12 +64,19 @@ public class main extends javax.swing.JFrame {
         supplies = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         update = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        fill = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         delete = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        request = new javax.swing.JTable();
+        jButton6 = new javax.swing.JButton();
+        fill1 = new javax.swing.JTextField();
+        jButton9 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -156,9 +166,36 @@ public class main extends javax.swing.JFrame {
             }
         });
 
+        fill.setFont(new java.awt.Font("Lucida Calligraphy", 2, 12)); // NOI18N
+        fill.setForeground(new java.awt.Color(204, 204, 204));
+        fill.setText("Type here to search");
+        fill.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fillMouseClicked(evt);
+            }
+        });
+        fill.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fillKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                fillKeyReleased(evt);
+            }
+        });
+
         jButton7.setText("Search");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton8.setText("Request");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         delete.setText("Delete");
         delete.addActionListener(new java.awt.event.ActionListener() {
@@ -178,7 +215,7 @@ public class main extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(fill, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
@@ -189,22 +226,19 @@ public class main extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
                                 .addComponent(update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(delete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(delete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fill, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)
-                        .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -214,21 +248,101 @@ public class main extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(delete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton5)
-                        .addGap(23, 23, 23))))
+                        .addComponent(jButton5))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 569, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Supplies", jPanel3);
+
+        request.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Request No.", "Department", "Employee Name", "Item No", "Item Type", "Quantity", "Date Request"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(request);
+
+        jButton6.setText("ADD");
+
+        fill1.setFont(new java.awt.Font("Lucida Calligraphy", 2, 12)); // NOI18N
+        fill1.setForeground(new java.awt.Color(204, 204, 204));
+        fill1.setText("Type here to search");
+        fill1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                fill1MouseClicked(evt);
+            }
+        });
+        fill1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fill1KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                fill1KeyReleased(evt);
+            }
+        });
+
+        jButton9.setText("Search");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setText("UPDATE");
+
+        jButton12.setText("DATE");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 935, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 816, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton12, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(fill1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(844, 844, 844)
+                        .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 587, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton9)
+                    .addComponent(fill1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButton6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton11)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton12)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         jTabbedPane1.addTab("Requested Supplies & Equipment", jPanel4);
@@ -241,7 +355,7 @@ public class main extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 587, Short.MAX_VALUE)
+            .addGap(0, 621, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Expenses", jPanel5);
@@ -284,8 +398,8 @@ public class main extends javax.swing.JFrame {
             invenFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(invenFrameLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
 
         changepass.setTitle("Change Password");
@@ -890,7 +1004,7 @@ public class main extends javax.swing.JFrame {
 
             this.disTableSupply();
 
-            this.refresh();
+            this.refreshSupply();
 
             description.setText("");
             unit.setSelectedIndex(0);
@@ -962,7 +1076,7 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordKeyPressed
 
     private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
-invenFrame.setVisible(true);
+        invenFrame.setVisible(true);
         invenFrame.setLocationRelativeTo(null);
         //this.setVisible(false);
 
@@ -996,6 +1110,158 @@ invenFrame.setVisible(true);
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }        // TODO add your handling code here:
     }//GEN-LAST:event_passwordActionPerformed
+
+    private void fillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fillKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fillKeyPressed
+
+    private void fillKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fillKeyReleased
+        String in = fill.getText();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(new connection().connect);
+
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM supply WHERE";
+
+            if (fill != null) {
+                sql = sql + " (description LIKE '%" + in + "%' )";
+                      //  + " OR first LIKE '%" + in + "%' )";
+            }
+            ResultSet rs = stmt.executeQuery(sql);
+
+            DefaultTableModel model = new TableSupplies().supplyTable;
+            int row = 0;
+            while (rs.next()) {
+                model.addRow(new Object[]{});
+                model.setValueAt(rs.getString("itemNo"), row, 0);
+                model.setValueAt(rs.getString("description"), row, 1);
+                model.setValueAt(rs.getString("unit"), row, 2);
+                model.setValueAt(rs.getString("quant"), row, 3);
+                model.setValueAt(rs.getString("ucost"), row, 4);
+                model.setValueAt(rs.getString("type"), row, 5);
+                model.setValueAt(rs.getString("result"), row, 6);
+                model.setValueAt(rs.getString("date_s"), row, 7);
+                row++;
+                
+            }
+
+            supplies.setModel(model);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_fillKeyReleased
+
+    private void fillMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fillMouseClicked
+        fill.setText("");
+        fill.setForeground(Color.black);     
+       // TODO add your handling code here:
+    }//GEN-LAST:event_fillMouseClicked
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+new request().setVisible(true);
+new main().setVisible(false);
+new request().setLocationRelativeTo(invenFrame);
+ //invenFrame.setVisible(false);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void fill1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fill1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fill1MouseClicked
+
+    private void fill1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fill1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fill1KeyPressed
+
+    private void fill1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fill1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fill1KeyReleased
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+ String in = fill.getText();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(new connection().connect);
+
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM supply WHERE";
+
+            if (fill != null) {
+                sql = sql + " (description LIKE '%" + in + "%' )";
+                      //  + " OR first LIKE '%" + in + "%' )";
+            }
+            ResultSet rs = stmt.executeQuery(sql);
+
+            DefaultTableModel model = new TableSupplies().supplyTable;
+            int row = 0;
+            while (rs.next()) {
+                model.addRow(new Object[]{});
+                model.setValueAt(rs.getString("itemNo"), row, 0);
+                model.setValueAt(rs.getString("description"), row, 1);
+                model.setValueAt(rs.getString("unit"), row, 2);
+                model.setValueAt(rs.getString("quant"), row, 3);
+                model.setValueAt(rs.getString("ucost"), row, 4);
+                model.setValueAt(rs.getString("type"), row, 5);
+                model.setValueAt(rs.getString("result"), row, 6);
+                model.setValueAt(rs.getString("date_s"), row, 7);
+                row++;
+                
+            }
+
+            supplies.setModel(model);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+ String in = fill.getText();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(new connection().connect);
+
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM supply WHERE";
+
+            if (fill != null) {
+                sql = sql + " (description LIKE '%" + in + "%' )";
+                      //  + " OR first LIKE '%" + in + "%' )";
+            }
+            ResultSet rs = stmt.executeQuery(sql);
+
+            DefaultTableModel model = new TableSupplies().supplyTable;
+            int row = 0;
+            while (rs.next()) {
+                model.addRow(new Object[]{});
+                model.setValueAt(rs.getString("itemNo"), row, 0);
+                model.setValueAt(rs.getString("description"), row, 1);
+                model.setValueAt(rs.getString("unit"), row, 2);
+                model.setValueAt(rs.getString("quant"), row, 3);
+                model.setValueAt(rs.getString("ucost"), row, 4);
+                model.setValueAt(rs.getString("type"), row, 5);
+                model.setValueAt(rs.getString("result"), row, 6);
+                model.setValueAt(rs.getString("date_s"), row, 7);
+                row++;
+                
+            }
+
+            supplies.setModel(model);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1037,15 +1303,21 @@ invenFrame.setVisible(true);
     private javax.swing.JDialog changepass;
     private javax.swing.JButton delete;
     private javax.swing.JTextField description;
+    private javax.swing.JTextField fill;
+    private javax.swing.JTextField fill1;
     private javax.swing.JFrame invenFrame;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1076,13 +1348,14 @@ invenFrame.setVisible(true);
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JPasswordField jPasswordField3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel label;
     private javax.swing.JPasswordField password;
     private javax.swing.JTextField quantity;
+    private javax.swing.JTable request;
     private javax.swing.JButton savebtn;
     private javax.swing.JTable supplies;
     private javax.swing.JLabel title;
@@ -1099,14 +1372,14 @@ invenFrame.setVisible(true);
     public void supply() {
         //codee = " supply ";
         codez();
-        this.refresh();
+        this.refreshSupply();
 
     }
 
     public void equipment() {
         //codee = " equipment ";
         codez();
-        this.refresh();
+        this.refreshSupply();
     }
 
     public void codez() {
@@ -1168,7 +1441,7 @@ invenFrame.setVisible(true);
         }
         this.setVisible(false);
         invenFrame.setVisible(true);
-        this.refresh();
+        this.refreshSupply();
 
     }
 
@@ -1186,10 +1459,11 @@ invenFrame.setVisible(true);
             model.setRowCount(0);
             while (rs.next()) {
                 model.addRow(new Object[]{rs.getInt("itemNo"), rs.getString("description"),
-                    rs.getString("unit"), rs.getInt("quant"), rs.getInt("ucost"), rs.getString("type"), rs.getInt("result"), rs.getString("date_s")});
+                    rs.getString("unit"), rs.getInt("quant"), rs.getInt("ucost"), rs.getString("type"),
+                    rs.getInt("result"), rs.getString("date_s")});
             }
 
-            this.refresh();
+            this.refreshSupply();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -1197,8 +1471,32 @@ invenFrame.setVisible(true);
         }
 
     }
+    
+    public void disTableRequest(){
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con  = DriverManager.getConnection(new connection().connect);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from request");
+            
+            DefaultTableModel model = (DefaultTableModel) request.getModel();
+            model.setRowCount(0);
+            while (rs.next()){
+                model.addRow(new Object []{rs.getInt("req_no"), rs.getString("department"), rs.getString("e_name"), rs.getInt("itemno"), rs.getString("itemtype"), rs.getInt("quant"), rs.getString("date_req")});
+            }
+           
+             this.refreshRequest();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           
+        
+    }
 
-    public void refresh() {
+    public void refreshSupply() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(new connection().connect);
@@ -1220,5 +1518,26 @@ invenFrame.setVisible(true);
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    public void refreshRequest(){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con  = DriverManager.getConnection(new connection().connect);
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from request");
+            
+            DefaultTableModel model = (DefaultTableModel) request.getModel();
+            model.setRowCount(0);
+            while (rs.next()){
+                model.addRow(new Object []{rs.getInt("req_no"), rs.getString("department"), rs.getString("e_name"), rs.getInt("itemno"), rs.getString("itemtype"), rs.getInt("quant"), rs.getString("date_req")});
+            }
+            this.refreshSupply();
+           
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

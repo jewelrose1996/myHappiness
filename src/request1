@@ -26,7 +26,6 @@ public class request extends javax.swing.JFrame {
      */
     public request() {
         initComponents();
-        this.setLocationRelativeTo(null);
     }
 
     /**

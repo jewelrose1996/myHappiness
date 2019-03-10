@@ -17,11 +17,11 @@ public class TableSupplies {
 
     },
     new String [] {
-        "Item No.", "Description", "Unit", "Quantity", "Cost (per unit)", "Item Type", "Total Amount", "Date Recorded", "Available Items"
+        "Item No.", "Description", "Unit", "Quantity", "Cost (per unit)", "Item Type", "Total Amount", "Date Recorded"
     }
 ) {
     boolean[] canEdit = new boolean [] {
-        false, false, false, false, false, false, false, false, false
+        false, false, false, false, false, false, false, false
     };
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {

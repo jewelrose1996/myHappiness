@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Instant;
+import static java.time.Instant.now;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -31,8 +34,7 @@ public class invenFrame extends javax.swing.JFrame {
         disTableSupply();
         disTableRequest();
         refreshSupply(); 
-        update.setVisible(false);
-        delete.setVisible(false);
+       
         this.setLocationRelativeTo(null);
     }
 
@@ -65,8 +67,22 @@ public class invenFrame extends javax.swing.JFrame {
         type = new javax.swing.JComboBox<>();
         savebtn = new javax.swing.JButton();
         unit = new javax.swing.JComboBox<>();
-        updatebtn = new javax.swing.JButton();
         title = new javax.swing.JLabel();
+        Update = new javax.swing.JFrame();
+        jPanel7 = new javax.swing.JPanel();
+        description1 = new javax.swing.JTextField();
+        quantity1 = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        uCost1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        type1 = new javax.swing.JComboBox<>();
+        unit1 = new javax.swing.JComboBox<>();
+        updatebtn1 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        title2 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -121,13 +137,6 @@ public class invenFrame extends javax.swing.JFrame {
 
         unit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ampule", "bar ", "book", "Bottle", "box", "can", "cap", "cartridge", "cone", "container", "cylinder", "each", "gallon", "kilogram", "kit", "liter", "meter", "pad", "pair", "pieces", "ream", "roll", "set", "spool", "stub", "syringes", "tablet", "tin", "tube", "unit", "vial" }));
 
-        updatebtn.setText("UPDATE");
-        updatebtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updatebtnActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -158,15 +167,14 @@ public class invenFrame extends javax.swing.JFrame {
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(savebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(type, 0, 97, Short.MAX_VALUE)
-                                    .addComponent(updatebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(type, 0, 97, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
                     .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -188,12 +196,14 @@ public class invenFrame extends javax.swing.JFrame {
                     .addComponent(type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(savebtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(updatebtn)
-                .addGap(7, 7, 7))
+                .addGap(41, 41, 41))
         );
 
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {description, quantity, uCost});
+
+        title.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title.setText("ADD New Supply / Equipment ");
 
         javax.swing.GroupLayout addLayout = new javax.swing.GroupLayout(add.getContentPane());
         add.getContentPane().setLayout(addLayout);
@@ -216,9 +226,139 @@ public class invenFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        Update.setMinimumSize(new java.awt.Dimension(360, 350));
+        Update.setResizable(false);
+
+        jPanel7.setBackground(new java.awt.Color(204, 204, 255));
+
+        jLabel14.setText("Quantity:");
+
+        jLabel15.setText("Unit:");
+
+        jLabel16.setText("Cost (per unit):");
+
+        jLabel17.setText("Type:");
+
+        jLabel2.setText("Description:");
+
+        type1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Supply", "Equipment" }));
+
+        unit1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ampule", "bar ", "book", "Bottle", "box", "can", "cap", "cartridge", "cone", "container", "cylinder", "each", "gallon", "kilogram", "kit", "liter", "meter", "pad", "pair", "pieces", "ream", "roll", "set", "spool", "stub", "syringes", "tablet", "tin", "tube", "unit", "vial" }));
+
+        updatebtn1.setText("UPDATE");
+        updatebtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updatebtn1ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Cancel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel15))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(description1)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(unit1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 139, Short.MAX_VALUE))))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel17))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(quantity1)
+                            .addComponent(uCost1)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(type1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(updatebtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+
+        jPanel7Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, updatebtn1});
+
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(description1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(unit1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(quantity1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(uCost1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(type1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updatebtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addContainerGap())
+        );
+
+        jPanel7Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton1, updatebtn1});
+
+        title2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        title2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title2.setText("Update Supply / Equipment ");
+
+        javax.swing.GroupLayout UpdateLayout = new javax.swing.GroupLayout(Update.getContentPane());
+        Update.getContentPane().setLayout(UpdateLayout);
+        UpdateLayout.setHorizontalGroup(
+            UpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(UpdateLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(UpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(title2, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        UpdateLayout.setVerticalGroup(
+            UpdateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(UpdateLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(title2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(927, 700));
-        setPreferredSize(new java.awt.Dimension(975, 896));
 
         jPanel3.setBackground(new java.awt.Color(204, 255, 204));
 
@@ -227,11 +367,11 @@ public class invenFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Item No.", "Description", "Unit", "Quantity", "Cost (per unit)", "Item Type", "Total Amount", "Date Recorded", "Available Items"
+                "Item No.", "Description", "Unit", "Quantity", "Cost (per unit)", "Item Type", "Total Amount", "Date Recorded"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -317,7 +457,7 @@ public class invenFrame extends javax.swing.JFrame {
                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(delete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE))
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -339,7 +479,7 @@ public class invenFrame extends javax.swing.JFrame {
                         .addComponent(delete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton5))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -390,6 +530,11 @@ public class invenFrame extends javax.swing.JFrame {
         });
 
         jButton11.setText("UPDATE");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         jButton12.setText("DATE");
 
@@ -425,7 +570,7 @@ public class invenFrame extends javax.swing.JFrame {
                     .addComponent(fill1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jButton6)
                         .addGap(18, 18, 18)
@@ -441,11 +586,11 @@ public class invenFrame extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 925, Short.MAX_VALUE)
+            .addGap(0, 950, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 517, Short.MAX_VALUE)
+            .addGap(0, 825, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Expenses", jPanel5);
@@ -504,35 +649,20 @@ public class invenFrame extends javax.swing.JFrame {
         add.setVisible(true);
         add.setLocationRelativeTo(null);
         title.setText("Add New Supply/Equipment");
-        updatebtn.setVisible(false);
-        update.setVisible(false);
-        delete.setVisible(false);
         this.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
-
-        this.setVisible(false);
-        add.setVisible(true);
-       String title = "Update Supply/Equipment";
-      add.setTitle(title);
-            //  setText();
-       add.setLocationRelativeTo(new invenFrame());
-        savebtn.setVisible(false);
-        add.setAlwaysOnTop(true);
-        type.setVisible(false);
-        updatebtn.setVisible(true);
-        jLabel13.setVisible(false);
-
-        int row = supplies.getSelectedRow();
-        // Object obj = supplies.getValueAt(row, 0);
-        String itemNo = (supplies.getModel().getValueAt(row, 0).toString());
-        //String itemNo = obj.toString();
-
-        if (itemNo == null) {
-            JOptionPane.showMessageDialog(rootPane, "Please select row!");
-        } else {
+       
+int row = supplies.getSelectedRow();
+       
+        if (row != -1) {
+            String itemNo = supplies.getModel().getValueAt(row, 0).toString();
+        Update.setVisible(true);
+      Update.setLocationRelativeTo(new invenFrame());
+        //Update.setAlwaysOnTop(true);
             try {
+                 
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection(new connection().connect);
 
@@ -544,19 +674,24 @@ public class invenFrame extends javax.swing.JFrame {
                 ResultSet rs = pstmt.executeQuery();
 
                 if (rs.next()) {
-                    description.setText(rs.getString("description"));
-                    unit.setSelectedItem(rs.getString("unit"));
-                    quantity.setText(rs.getString("quant"));
-                    uCost.setText(rs.getString("ucost"));
+                    description1.setText(rs.getString("description"));
+                    unit1.setSelectedItem(rs.getString("unit"));
+                    quantity1.setText(rs.getString("quant"));
+                    uCost1.setText(rs.getString("ucost"));
+                    type1.setSelectedItem(rs.getString("type"));
 
                 }
-
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(invenFrame.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
-                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(invenFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+           
+        } else {
+            
+JOptionPane.showMessageDialog(rootPane, "Please select row!");
+        
+            } 
     }//GEN-LAST:event_updateActionPerformed
 
     private void fillMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fillMouseClicked
@@ -769,13 +904,16 @@ public class invenFrame extends javax.swing.JFrame {
         codez();
         this.refresh();
     }
-    private void updatebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtnActionPerformed
-        String des = description.getText();
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+String des = description.getText();
         String uni = unit.getSelectedItem().toString();
         String quant = quantity.getText();
         String ucost = uCost.getText();
 
         int row = supplies.getSelectedRow();
+        if (row!=-1){
+            
+        
         Object obj = supplies.getValueAt(row, 0);
         String itemNo = obj.toString();
 
@@ -822,7 +960,68 @@ public class invenFrame extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(invenFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_updatebtnActionPerformed
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "PLease Select row");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void updatebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtn1ActionPerformed
+String des = description1.getText();
+        String uni = unit1.getSelectedItem().toString();
+        String quant = quantity1.getText();
+        String ucost = uCost1.getText();
+
+        int row = supplies.getSelectedRow();
+        Object obj = supplies.getValueAt(row, 0);
+        String itemNo = obj.toString();
+
+        int pro;
+
+        int q = Integer.parseInt(quant);
+        int c = Integer.parseInt(ucost);
+
+        pro = c * q;
+        String proo = Integer.toString(pro);
+        String ty = type1.getSelectedItem().toString();
+       //String date = now().toString();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            com.mysql.jdbc.Connection con = (com.mysql.jdbc.Connection) DriverManager.getConnection("jdbc:mysql://localhost/storage?", "root", "");
+
+            String sql = "update supply set description = ?, unit = ?, quant = ?, ucost =?, type=?, result = ?, date_s = now() where itemNo =" + itemNo +";";
+
+            com.mysql.jdbc.PreparedStatement pstmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(sql);
+
+            pstmt.setString(1, des);
+            pstmt.setString(2, uni);
+            pstmt.setString(3, quant);
+            pstmt.setString(4, ucost);
+            pstmt.setString(5, ty);
+            pstmt.setString(6, proo);
+            //pstmt.setString(6, date);
+           //pstmt.setString(7, date);
+
+            pstmt.executeUpdate();
+            
+            JOptionPane.showMessageDialog(rootPane, "Successfully Updated");
+            this.disTableSupply();
+            this.refresh();
+Update.setVisible(false);
+          reset_textfield();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+          // TODO add your handling code here:
+    }//GEN-LAST:event_updatebtn1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+Update.setVisible(false);
+this.setVisible(true);
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -860,11 +1059,14 @@ public class invenFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFrame Update;
     private javax.swing.JFrame add;
     private javax.swing.JButton delete;
     private javax.swing.JTextField description;
+    private javax.swing.JTextField description1;
     private javax.swing.JTextField fill;
     private javax.swing.JTextField fill1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton4;
@@ -878,6 +1080,11 @@ public class invenFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -890,19 +1097,25 @@ public class invenFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField quantity;
+    private javax.swing.JTextField quantity1;
     private javax.swing.JTable request;
     private javax.swing.JButton savebtn;
     private javax.swing.JTable supplies;
     private javax.swing.JLabel title;
+    private javax.swing.JLabel title2;
     private javax.swing.JComboBox<String> type;
+    private javax.swing.JComboBox<String> type1;
     private javax.swing.JTextField uCost;
+    private javax.swing.JTextField uCost1;
     private javax.swing.JComboBox<String> unit;
+    private javax.swing.JComboBox<String> unit1;
     private javax.swing.JButton update;
-    private javax.swing.JButton updatebtn;
+    private javax.swing.JButton updatebtn1;
     // End of variables declaration//GEN-END:variables
 
     private String codee;
@@ -1092,5 +1305,9 @@ public class invenFrame extends javax.swing.JFrame {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    private Date date_s(Instant now) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

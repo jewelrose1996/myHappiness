@@ -1,3 +1,5 @@
+package supplyOfficer;
+
 
 import java.awt.Color;
 import java.sql.Connection;
@@ -13,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import static supplyOfficer.invenFrame.main;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -65,6 +69,8 @@ public class invenFrame extends javax.swing.JFrame {
         type = new javax.swing.JComboBox<>();
         savebtn = new javax.swing.JButton();
         unit = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        exp_date = new javax.swing.JTextField();
         title = new javax.swing.JLabel();
         Update = new javax.swing.JFrame();
         jPanel7 = new javax.swing.JPanel();
@@ -82,7 +88,7 @@ public class invenFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         title2 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
+        supply = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         supplies = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
@@ -92,7 +98,7 @@ public class invenFrame extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         delete = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
+        requestPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         request = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
@@ -135,6 +141,8 @@ public class invenFrame extends javax.swing.JFrame {
 
         unit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ampule", "bar ", "book", "Bottle", "box", "can", "cap", "cartridge", "cone", "container", "cylinder", "each", "gallon", "kilogram", "kit", "liter", "meter", "pad", "pair", "pieces", "ream", "roll", "set", "spool", "stub", "syringes", "tablet", "tin", "tube", "unit", "vial" }));
 
+        jLabel3.setText("Expiration Date:");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -157,7 +165,8 @@ public class invenFrame extends javax.swing.JFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel12)
                             .addComponent(jLabel11)
-                            .addComponent(jLabel13))
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(quantity)
@@ -166,16 +175,17 @@ public class invenFrame extends javax.swing.JFrame {
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(savebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(type, 0, 97, Short.MAX_VALUE))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(exp_date))))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -190,14 +200,18 @@ public class invenFrame extends javax.swing.JFrame {
                     .addComponent(uCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3)
+                    .addComponent(exp_date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
                 .addGap(18, 18, 18)
                 .addComponent(savebtn)
-                .addGap(41, 41, 41))
+                .addContainerGap())
         );
 
-        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {description, quantity, uCost});
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {description, exp_date, quantity, uCost});
 
         title.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -357,11 +371,10 @@ public class invenFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(896, 496));
-        setPreferredSize(new java.awt.Dimension(796, 696));
 
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(930, 584));
 
-        jPanel3.setBackground(new java.awt.Color(204, 255, 204));
+        supply.setBackground(new java.awt.Color(204, 255, 204));
 
         supplies.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -442,16 +455,16 @@ public class invenFrame extends javax.swing.JFrame {
 
         jButton5.setText("LOG-OUT");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout supplyLayout = new javax.swing.GroupLayout(supply);
+        supply.setLayout(supplyLayout);
+        supplyLayout.setHorizontalGroup(
+            supplyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, supplyLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(supplyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(supplyLayout.createSequentialGroup()
+                        .addGroup(supplyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(supplyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jButton8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
                                 .addComponent(update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(delete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -459,23 +472,23 @@ public class invenFrame extends javax.swing.JFrame {
                             .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(supplyLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(fill, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+        supplyLayout.setVerticalGroup(
+            supplyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, supplyLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(supplyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton7)
                     .addComponent(fill, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(supplyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(supplyLayout.createSequentialGroup()
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -489,11 +502,11 @@ public class invenFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {delete, jButton4, jButton8, update});
+        supplyLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {delete, jButton4, jButton8, update});
 
-        jTabbedPane1.addTab("Supplies", jPanel3);
+        jTabbedPane1.addTab("Supplies", supply);
 
-        jPanel4.setBackground(new java.awt.Color(204, 204, 204));
+        requestPanel.setBackground(new java.awt.Color(204, 204, 204));
 
         request.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -548,20 +561,20 @@ public class invenFrame extends javax.swing.JFrame {
 
         jButton12.setText("DATE");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout requestPanelLayout = new javax.swing.GroupLayout(requestPanel);
+        requestPanel.setLayout(requestPanelLayout);
+        requestPanelLayout.setHorizontalGroup(
+            requestPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(requestPanelLayout.createSequentialGroup()
+                .addGroup(requestPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(requestPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(fill1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(requestPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(requestPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jButton12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
@@ -569,17 +582,17 @@ public class invenFrame extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        requestPanelLayout.setVerticalGroup(
+            requestPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(requestPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(requestPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton9)
                     .addComponent(fill1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(requestPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(requestPanelLayout.createSequentialGroup()
                         .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton11)
@@ -589,9 +602,9 @@ public class invenFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton11, jButton12, jButton6});
+        requestPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButton11, jButton12, jButton6});
 
-        jTabbedPane1.addTab("Requested Supplies & Equipment", jPanel4);
+        jTabbedPane1.addTab("Requested Supplies & Equipment", requestPanel);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -617,6 +630,11 @@ public class invenFrame extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Navigation");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
 
         jMenuItem1.setText("Supplies");
         jMenu2.add(jMenuItem1);
@@ -650,247 +668,6 @@ public class invenFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void suppliesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suppliesMouseClicked
-        update.setVisible(true);
-        delete.setVisible(true);
-    }//GEN-LAST:event_suppliesMouseClicked
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        add.setVisible(true);
-        add.setLocationRelativeTo(null);
-        title.setText("Add New Supply/Equipment");
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
-
-        int row = supplies.getSelectedRow();
-
-        if (row != -1) {
-            String itemNo = supplies.getModel().getValueAt(row, 0).toString();
-            Update.setVisible(true);
-            Update.setLocationRelativeTo(new invenFrame());
-            //Update.setAlwaysOnTop(true);
-            try {
-
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection con = DriverManager.getConnection(new connection().connect);
-
-                String sql = "select * from supply where itemNo = ?";
-
-                PreparedStatement pstmt = con.prepareStatement(sql);
-
-                pstmt.setString(1, itemNo);
-                ResultSet rs = pstmt.executeQuery();
-
-                if (rs.next()) {
-                    description1.setText(rs.getString("description"));
-                    unit1.setSelectedItem(rs.getString("unit"));
-                    quantity1.setText(rs.getString("quant"));
-                    uCost1.setText(rs.getString("ucost"));
-                    type1.setSelectedItem(rs.getString("type"));
-
-                }
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(invenFrame.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(invenFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        } else {
-
-            JOptionPane.showMessageDialog(rootPane, "Please select row!");
-
-        }
-    }//GEN-LAST:event_updateActionPerformed
-
-    private void fillMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fillMouseClicked
-        fill.setText("");
-        fill.setForeground(Color.black);
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fillMouseClicked
-
-    private void fillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fillKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fillKeyPressed
-
-    private void fillKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fillKeyReleased
-        String in = fill.getText();
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(new connection().connect);
-
-            Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM supply WHERE";
-
-            if (fill != null) {
-                sql = sql + " (description LIKE '%" + in + "%' )";
-                //  + " OR first LIKE '%" + in + "%' )";
-            }
-            ResultSet rs = stmt.executeQuery(sql);
-
-            DefaultTableModel model = new TableSupplies().supplyTable;
-            int row = 0;
-            while (rs.next()) {
-                model.addRow(new Object[]{});
-                model.setValueAt(rs.getString("itemNo"), row, 0);
-                model.setValueAt(rs.getString("description"), row, 1);
-                model.setValueAt(rs.getString("unit"), row, 2);
-                model.setValueAt(rs.getString("quant"), row, 3);
-                model.setValueAt(rs.getString("ucost"), row, 4);
-                model.setValueAt(rs.getString("type"), row, 5);
-                model.setValueAt(rs.getString("result"), row, 6);
-                model.setValueAt(rs.getString("date_s"), row, 7);
-                row++;
-
-            }
-
-            supplies.setModel(model);
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_fillKeyReleased
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        String in = fill.getText();
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(new connection().connect);
-
-            Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM supply WHERE";
-
-            if (fill != null) {
-                sql = sql + " (description LIKE '%" + in + "%' )";
-                //  + " OR first LIKE '%" + in + "%' )";
-            }
-            ResultSet rs = stmt.executeQuery(sql);
-
-            DefaultTableModel model = new TableSupplies().supplyTable;
-            int row = 0;
-            while (rs.next()) {
-                model.addRow(new Object[]{});
-                model.setValueAt(rs.getString("itemNo"), row, 0);
-                model.setValueAt(rs.getString("description"), row, 1);
-                model.setValueAt(rs.getString("unit"), row, 2);
-                model.setValueAt(rs.getString("quant"), row, 3);
-                model.setValueAt(rs.getString("ucost"), row, 4);
-                model.setValueAt(rs.getString("type"), row, 5);
-                model.setValueAt(rs.getString("result"), row, 6);
-                model.setValueAt(rs.getString("date_s"), row, 7);
-                row++;
-
-            }
-
-            supplies.setModel(model);
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        new request().setVisible(true);
-        new main().setVisible(false);
-        new request().setLocationRelativeTo(null);
-        //invenFrame.setVisible(false);
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-        int row = supplies.getSelectedRow();
-        Object obj = supplies.getValueAt(row, 0);
-        String id = obj.toString();
-
-        if (id == null) {
-            JOptionPane.showMessageDialog(rootPane, "Please select row!");
-        } else {
-
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                com.mysql.jdbc.Connection con = (com.mysql.jdbc.Connection) DriverManager.getConnection("jdbc:mysql://localhost/storage", "root", "");
-
-                String sql = "delete from supply where itemNo = ?";
-
-                com.mysql.jdbc.PreparedStatement pstmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(sql);
-
-                pstmt.setString(1, id);
-
-                int x = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this data?");
-
-                if (x == JOptionPane.YES_OPTION) {
-                    pstmt.executeUpdate();
-                    JOptionPane.showMessageDialog(rootPane, "Deleted");
-                    this.disTableSupply();
-                }
-
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteActionPerformed
-
-    private void fill1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fill1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fill1MouseClicked
-
-    private void fill1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fill1KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fill1KeyPressed
-
-    private void fill1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fill1KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fill1KeyReleased
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        String in = fill.getText();
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(new connection().connect);
-
-            Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM supply WHERE";
-
-            if (fill != null) {
-                sql = sql + " (description LIKE '%" + in + "%' )";
-                //  + " OR first LIKE '%" + in + "%' )";
-            }
-            ResultSet rs = stmt.executeQuery(sql);
-
-            DefaultTableModel model = new TableSupplies().supplyTable;
-            int row = 0;
-            while (rs.next()) {
-                model.addRow(new Object[]{});
-                model.setValueAt(rs.getString("itemNo"), row, 0);
-                model.setValueAt(rs.getString("description"), row, 1);
-                model.setValueAt(rs.getString("unit"), row, 2);
-                model.setValueAt(rs.getString("quant"), row, 3);
-                model.setValueAt(rs.getString("ucost"), row, 4);
-                model.setValueAt(rs.getString("type"), row, 5);
-                model.setValueAt(rs.getString("result"), row, 6);
-                model.setValueAt(rs.getString("date_s"), row, 7);
-                row++;
-
-            }
-
-            supplies.setModel(model);
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
-
     private void savebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savebtnActionPerformed
 
         codez();
@@ -914,6 +691,69 @@ public class invenFrame extends javax.swing.JFrame {
         codez();
         this.refresh();
     }
+    private void updatebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtn1ActionPerformed
+        String des = description1.getText();
+        String uni = unit1.getSelectedItem().toString();
+        String quant = quantity1.getText();
+        String ucost = uCost1.getText();
+
+        int row = supplies.getSelectedRow();
+        Object obj = supplies.getValueAt(row, 0);
+        String itemNo = obj.toString();
+
+        int pro;
+
+        int q = Integer.parseInt(quant);
+        int c = Integer.parseInt(ucost);
+
+        pro = c * q;
+        String proo = Integer.toString(pro);
+        String ty = type1.getSelectedItem().toString();
+        //String date = now().toString();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            com.mysql.jdbc.Connection con = (com.mysql.jdbc.Connection) DriverManager.getConnection("jdbc:mysql://localhost/storage?", "root", "");
+
+            String sql = "update supply set description = ?, unit = ?, quant = ?, ucost =?, type=?, result = ?, date_s = now() where itemNo =" + itemNo + ";";
+
+            com.mysql.jdbc.PreparedStatement pstmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(sql);
+
+            pstmt.setString(1, des);
+            pstmt.setString(2, uni);
+            pstmt.setString(3, quant);
+            pstmt.setString(4, ucost);
+            pstmt.setString(5, ty);
+            pstmt.setString(6, proo);
+            //pstmt.setString(6, date);
+            //pstmt.setString(7, date);
+
+            pstmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(rootPane, "Successfully Updated");
+            this.disTableSupply();
+            this.refresh();
+            Update.setVisible(false);
+            reset_textfield();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updatebtn1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Update.setVisible(false);
+        this.setVisible(true);
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+   supply.setVisible(true);
+   // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         String des = description.getText();
         String uni = unit.getSelectedItem().toString();
@@ -974,63 +814,246 @@ public class invenFrame extends javax.swing.JFrame {
         }        // TODO add your handling code here:
     }//GEN-LAST:event_jButton11ActionPerformed
 
-    private void updatebtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebtn1ActionPerformed
-        String des = description1.getText();
-        String uni = unit1.getSelectedItem().toString();
-        String quant = quantity1.getText();
-        String ucost = uCost1.getText();
-
-        int row = supplies.getSelectedRow();
-        Object obj = supplies.getValueAt(row, 0);
-        String itemNo = obj.toString();
-
-        int pro;
-
-        int q = Integer.parseInt(quant);
-        int c = Integer.parseInt(ucost);
-
-        pro = c * q;
-        String proo = Integer.toString(pro);
-        String ty = type1.getSelectedItem().toString();
-        //String date = now().toString();
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        String in = fill.getText();
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            com.mysql.jdbc.Connection con = (com.mysql.jdbc.Connection) DriverManager.getConnection("jdbc:mysql://localhost/storage?", "root", "");
+            Connection con = DriverManager.getConnection(new connection().connect);
 
-            String sql = "update supply set description = ?, unit = ?, quant = ?, ucost =?, type=?, result = ?, date_s = now() where itemNo =" + itemNo + ";";
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM supply WHERE";
 
-            com.mysql.jdbc.PreparedStatement pstmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(sql);
+            if (fill != null) {
+                sql = sql + " (description LIKE '%" + in + "%' )";
+                //  + " OR first LIKE '%" + in + "%' )";
+            }
+            ResultSet rs = stmt.executeQuery(sql);
 
-            pstmt.setString(1, des);
-            pstmt.setString(2, uni);
-            pstmt.setString(3, quant);
-            pstmt.setString(4, ucost);
-            pstmt.setString(5, ty);
-            pstmt.setString(6, proo);
-            //pstmt.setString(6, date);
-            //pstmt.setString(7, date);
+            DefaultTableModel model = new TableSupplies().supplyTable;
+            int row = 0;
+            while (rs.next()) {
+                model.addRow(new Object[]{});
+                model.setValueAt(rs.getString("itemNo"), row, 0);
+                model.setValueAt(rs.getString("description"), row, 1);
+                model.setValueAt(rs.getString("unit"), row, 2);
+                model.setValueAt(rs.getString("quant"), row, 3);
+                model.setValueAt(rs.getString("ucost"), row, 4);
+                model.setValueAt(rs.getString("type"), row, 5);
+                model.setValueAt(rs.getString("result"), row, 6);
+                model.setValueAt(rs.getString("date_s"), row, 7);
+                row++;
 
-            pstmt.executeUpdate();
+            }
 
-            JOptionPane.showMessageDialog(rootPane, "Successfully Updated");
-            this.disTableSupply();
-            this.refresh();
-            Update.setVisible(false);
-            reset_textfield();
+            supplies.setModel(model);
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        // TODO add your handling code here:
-    }//GEN-LAST:event_updatebtn1ActionPerformed
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Update.setVisible(false);
-        this.setVisible(true);
-// TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void fill1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fill1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fill1KeyReleased
+
+    private void fill1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fill1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fill1KeyPressed
+
+    private void fill1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fill1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fill1MouseClicked
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        int row = supplies.getSelectedRow();
+        Object obj = supplies.getValueAt(row, 0);
+        String id = obj.toString();
+
+        if (id == null) {
+            JOptionPane.showMessageDialog(rootPane, "Please select row!");
+        } else {
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                com.mysql.jdbc.Connection con = (com.mysql.jdbc.Connection) DriverManager.getConnection("jdbc:mysql://localhost/storage", "root", "");
+
+                String sql = "delete from supply where itemNo = ?";
+
+                com.mysql.jdbc.PreparedStatement pstmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(sql);
+
+                pstmt.setString(1, id);
+
+                int x = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this data?");
+
+                if (x == JOptionPane.YES_OPTION) {
+                    pstmt.executeUpdate();
+                    JOptionPane.showMessageDialog(rootPane, "Deleted");
+                    this.disTableSupply();
+                }
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        new request().setVisible(true);
+        new main().setVisible(false);
+        new request().setLocationRelativeTo(null);
+        //invenFrame.setVisible(false);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        String in = fill.getText();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(new connection().connect);
+
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM supply WHERE";
+
+            if (fill != null) {
+                sql = sql + " (description LIKE '%" + in + "%' )";
+                //  + " OR first LIKE '%" + in + "%' )";
+            }
+            ResultSet rs = stmt.executeQuery(sql);
+
+            DefaultTableModel model = new TableSupplies().supplyTable;
+            int row = 0;
+            while (rs.next()) {
+                model.addRow(new Object[]{});
+                model.setValueAt(rs.getString("itemNo"), row, 0);
+                model.setValueAt(rs.getString("description"), row, 1);
+                model.setValueAt(rs.getString("unit"), row, 2);
+                model.setValueAt(rs.getString("quant"), row, 3);
+                model.setValueAt(rs.getString("ucost"), row, 4);
+                model.setValueAt(rs.getString("type"), row, 5);
+                model.setValueAt(rs.getString("result"), row, 6);
+                model.setValueAt(rs.getString("date_s"), row, 7);
+                row++;
+
+            }
+
+            supplies.setModel(model);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(invenFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(invenFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void fillKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fillKeyReleased
+        String in = fill.getText();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(new connection().connect);
+
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM supply WHERE";
+
+            if (fill != null) {
+                sql = sql + " (description LIKE '%" + in + "%' )";
+                //  + " OR first LIKE '%" + in + "%' )";
+            }
+            ResultSet rs = stmt.executeQuery(sql);
+
+            DefaultTableModel model = new TableSupplies().supplyTable;
+            int row = 0;
+            while (rs.next()) {
+                model.addRow(new Object[]{});
+                model.setValueAt(rs.getString("itemNo"), row, 0);
+                model.setValueAt(rs.getString("description"), row, 1);
+                model.setValueAt(rs.getString("unit"), row, 2);
+                model.setValueAt(rs.getString("quant"), row, 3);
+                model.setValueAt(rs.getString("ucost"), row, 4);
+                model.setValueAt(rs.getString("type"), row, 5);
+                model.setValueAt(rs.getString("result"), row, 6);
+                model.setValueAt(rs.getString("date_s"), row, 7);
+                row++;
+
+            }
+
+            supplies.setModel(model);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(invenFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(invenFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_fillKeyReleased
+
+    private void fillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fillKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fillKeyPressed
+
+    private void fillMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fillMouseClicked
+        fill.setText("");
+        fill.setForeground(Color.black);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fillMouseClicked
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+
+        int row = supplies.getSelectedRow();
+
+        if (row != -1) {
+            String itemNo = supplies.getModel().getValueAt(row, 0).toString();
+            Update.setVisible(true);
+            Update.setLocationRelativeTo(new invenFrame());
+            //Update.setAlwaysOnTop(true);
+            try {
+
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(new connection().connect);
+
+                String sql = "select * from supply where itemNo = ?";
+
+                PreparedStatement pstmt = con.prepareStatement(sql);
+
+                pstmt.setString(1, itemNo);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    description1.setText(rs.getString("description"));
+                    unit1.setSelectedItem(rs.getString("unit"));
+                    quantity1.setText(rs.getString("quant"));
+                    uCost1.setText(rs.getString("ucost"));
+                    type1.setSelectedItem(rs.getString("type"));
+
+                }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(invenFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(invenFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+
+            JOptionPane.showMessageDialog(rootPane, "Please select row!");
+
+        }
+    }//GEN-LAST:event_updateActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        add.setVisible(true);
+        add.setLocationRelativeTo(null);
+        //title.setText("Add New Supply/Equipment");
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void suppliesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suppliesMouseClicked
+        update.setVisible(true);
+        delete.setVisible(true);
+    }//GEN-LAST:event_suppliesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1073,6 +1096,7 @@ public class invenFrame extends javax.swing.JFrame {
     private javax.swing.JButton delete;
     private javax.swing.JTextField description;
     private javax.swing.JTextField description1;
+    private javax.swing.JTextField exp_date;
     private javax.swing.JTextField fill;
     private javax.swing.JTextField fill1;
     private javax.swing.JButton jButton1;
@@ -1094,6 +1118,7 @@ public class invenFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -1102,8 +1127,6 @@ public class invenFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
@@ -1113,8 +1136,10 @@ public class invenFrame extends javax.swing.JFrame {
     private javax.swing.JTextField quantity;
     private javax.swing.JTextField quantity1;
     private javax.swing.JTable request;
+    private javax.swing.JPanel requestPanel;
     private javax.swing.JButton savebtn;
     private javax.swing.JTable supplies;
+    private javax.swing.JPanel supply;
     private javax.swing.JLabel title;
     private javax.swing.JLabel title2;
     private javax.swing.JComboBox<String> type;
@@ -1216,6 +1241,8 @@ public class invenFrame extends javax.swing.JFrame {
             }
 
             this.refreshSupply();
+            JTableHeader theader = supplies.getTableHeader();
+            theader.setBackground(Color.darkGray);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -1235,9 +1262,10 @@ public class invenFrame extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) request.getModel();
             model.setRowCount(0);
             while (rs.next()) {
-                model.addRow(new Object[]{rs.getInt("req_no"), rs.getString("department"), rs.getString("e_name"), rs.getInt("itemno"), rs.getString("itemtype"), rs.getInt("quant"), rs.getString("date_req")});
+                model.addRow(new Object[]{rs.getInt("req_no"), rs.getString("department"), rs.getString("e_name"), rs.getInt("item_No"), rs.getString("itemtype"), rs.getInt("quant"), rs.getString("date_req")});
             }
-
+JTableHeader theader = supplies.getTableHeader();
+            theader.setBackground(Color.CYAN);
             this.refreshRequest();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
@@ -1281,7 +1309,7 @@ public class invenFrame extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) request.getModel();
             model.setRowCount(0);
             while (rs.next()) {
-                model.addRow(new Object[]{rs.getInt("req_no"), rs.getString("department"), rs.getString("e_name"), rs.getInt("itemno"), rs.getString("itemtype"), rs.getInt("quant"), rs.getString("date_req")});
+                model.addRow(new Object[]{rs.getInt("req_no"), rs.getString("department"), rs.getString("e_name"), rs.getInt("item_No"), rs.getString("itemtype"), rs.getInt("quant"), rs.getString("date_req")});
             }
             this.refreshSupply();
 

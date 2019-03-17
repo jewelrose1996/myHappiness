@@ -1,3 +1,5 @@
+package supplyOfficer;
+
 
 import javax.swing.table.DefaultTableModel;
 
@@ -11,17 +13,17 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Aspire ES1-432
  */
-public class TableSupplies {
-    DefaultTableModel supplyTable = new javax.swing.table.DefaultTableModel(
+public class TableRequest {
+    DefaultTableModel request = new javax.swing.table.DefaultTableModel(
     new Object [][] {
 
     },
     new String [] {
-        "Item No.", "Description", "Unit", "Quantity", "Cost (per unit)", "Item Type", "Total Amount", "Date Recorded"
+        "Request No.", "Department", "Employee Name", "Item No", "Item Type", "Quantity", "Date Request"
     }
 ) {
     boolean[] canEdit = new boolean [] {
-        false, false, false, false, false, false, false, false
+        false, false, false, false, false, false, false
     };
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {

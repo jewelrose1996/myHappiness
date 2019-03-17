@@ -1,4 +1,6 @@
 
+import supplyOfficer.invenFrame;
+import admin.admin;
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
@@ -36,10 +38,9 @@ public class main extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         new invenFrame().disTableSupply();
         new invenFrame().disTableRequest();
-        new invenFrame().refreshSupply(); 
-      //  codee = "supply";  
+        new invenFrame().refreshSupply();
+        //  codee = "supply";  
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -133,6 +134,7 @@ public class main extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Inventory System");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 204));
@@ -161,6 +163,7 @@ public class main extends javax.swing.JFrame {
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel2.setToolTipText("");
 
         jLabel2.setBackground(new java.awt.Color(204, 204, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -311,40 +314,6 @@ public class main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       //new invenFrame().setVisible(true);
-       //new invenFrame().setLocationRelativeTo(null);
-        //this.setVisible(false);
-
-       /// String un = username.getText();
-       // String pw = String.valueOf(password.getPassword());
-
-       /* try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(new connection().connect);
-            String query = "SELECT * FROM user WHERE username=? AND password=md5(?)";
-
-            PreparedStatement pstmt = con.prepareStatement(query);
-
-            pstmt.setString(1, un);
-            pstmt.setString(2, pw);
-
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                
-             
-        } else {
-                JOptionPane.showMessageDialog(rootPane, "Invalid", "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
-            invenFrame.setVisible(true);
-                invenFrame.setLocationRelativeTo(null);
-this.dispose();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-
         String uName = username.getText();
         String pass = new String(password.getPassword());
 
@@ -352,31 +321,36 @@ this.dispose();
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(new connection().connect);
 
-            String sql = ("select * from user where username=? and password=md5(?);");
+            String sql = ("select * from users where username=? and password=md5(?);");
             PreparedStatement pstmt = con.prepareStatement(sql);
 
             pstmt.setString(1, uName);
             pstmt.setString(2, pass);
 
             ResultSet rs = pstmt.executeQuery();
-
             if (rs.next()) {
-                new invenFrame().setVisible(true);
-                new invenFrame().setLocationRelativeTo(null);
-                this.setVisible(false);
-                new invenFrame().disTableSupply();
-        new invenFrame().disTableRequest();
-        new invenFrame().refreshSupply(); 
-        this.setVisible(false);
-        
+                if (uName.equals("admin")) {
+                    new admin().setVisible(true);
+                    this.setVisible(false);
+                } else if (uName.equals("supply officer")) {
+
+                    new invenFrame().setVisible(true);
+                    new invenFrame().setLocationRelativeTo(null);
+                    this.setVisible(false);
+                    new invenFrame().disTableSupply();
+                    new invenFrame().disTableRequest();
+                    new invenFrame().refreshSupply(); 
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Invalid", "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
+                    JOptionPane.showMessageDialog(rootPane, "Invalid", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+                }
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        }// TODO add your handling code here:
+        } 
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -413,42 +387,46 @@ this.dispose();
     }//GEN-LAST:event_passwordKeyPressed
 
     private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
-      // new invenFrame().setVisible(true);
-      // new invenFrame().setLocationRelativeTo(null);
+        // new invenFrame().setVisible(true);
+        // new invenFrame().setLocationRelativeTo(null);
         //this.setVisible(false);
 
-        String un = username.getText();
-        String pw = String.valueOf(password.getPassword());
+        String uName = username.getText();
+        String pass = new String(password.getPassword());
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(new connection().connect);
-            String query = "SELECT * FROM user WHERE username=? AND password=md5(?)";
 
-            PreparedStatement pstmt = con.prepareStatement(query);
+            String sql = ("select * from users where username=? and password=md5(?);");
+            PreparedStatement pstmt = con.prepareStatement(sql);
 
-            pstmt.setString(1, un);
-            pstmt.setString(2, pw);
+            pstmt.setString(1, uName);
+            pstmt.setString(2, pass);
 
             ResultSet rs = pstmt.executeQuery();
-
             if (rs.next()) {
-                new invenFrame().setVisible(true);
-                new invenFrame().setLocationRelativeTo(null);
-                new invenFrame().disTableSupply();
-        new invenFrame().disTableRequest();
-        new invenFrame().refreshSupply(); 
-                this.setVisible(false);
+                if (uName.equals("admin")) {
+                    new admin().setVisible(true);
+                    this.setVisible(false);
+                } else if (uName.equals("supply officer")) {
 
+                    new invenFrame().setVisible(true);
+                    new invenFrame().setLocationRelativeTo(null);
+                    this.setVisible(false);
+                    new invenFrame().disTableSupply();
+                    new invenFrame().disTableRequest();
+                    new invenFrame().refreshSupply();  
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Invalid", "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
-
+                    JOptionPane.showMessageDialog(rootPane, "Invalid", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+                }
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
+        }       // TODO add your handling code here:
     }//GEN-LAST:event_passwordActionPerformed
 
     /**

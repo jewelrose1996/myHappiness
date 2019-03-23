@@ -91,7 +91,6 @@ public class admin extends javax.swing.JFrame {
         fill = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
         delete = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
         requestPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         request = new javax.swing.JTable();
@@ -484,19 +483,6 @@ public class admin extends javax.swing.JFrame {
 
         tab2.addTab("Supplies", supply);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 925, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 556, Short.MAX_VALUE)
-        );
-
-        tab2.addTab("Expenses", jPanel5);
-
         requestPanel.setBackground(new java.awt.Color(204, 204, 204));
 
         request.setModel(new javax.swing.table.DefaultTableModel(
@@ -684,306 +670,6 @@ public class admin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void suppliesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suppliesMouseClicked
-        update.setVisible(true);
-        delete.setVisible(true);
-    }//GEN-LAST:event_suppliesMouseClicked
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        add.setVisible(true);
-        add.setLocationRelativeTo(null);
-        //title.setText("Add New Supply/Equipment");
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
-
-        int row = supplies.getSelectedRow();
-
-        if (row != -1) {
-            String itemNo = supplies.getModel().getValueAt(row, 0).toString();
-            Update.setVisible(true);
-            Update.setLocationRelativeTo(new admin());
-                   //Update.setAlwaysOnTop(true);
-            try {         
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection con = DriverManager.getConnection(new connection().connect);
-
-                String sql = "select * from supply where itemNo = ?";
-
-                PreparedStatement pstmt = con.prepareStatement(sql);
-
-                pstmt.setString(1, itemNo);
-                ResultSet rs = pstmt.executeQuery();
-
-                if (rs.next()) {
-                    description1.setText(rs.getString("description"));
-                    unit1.setSelectedItem(rs.getString("unit"));
-                    quantity1.setText(rs.getString("quant"));
-                    uCost1.setText(rs.getString("ucost"));
-                    type1.setSelectedItem(rs.getString("type"));
-
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "Please select row!");
-                }
-            
-
-        }   catch (ClassNotFoundException ex) {
-                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }//GEN-LAST:event_updateActionPerformed
-
-    private void fillMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fillMouseClicked
-        fill.setText("");
-        fill.setForeground(Color.black);
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fillMouseClicked
-
-    private void fillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fillKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fillKeyPressed
-
-    private void fillKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fillKeyReleased
-        String in = fill.getText();
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(new connection().connect);
-
-            Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM supply WHERE";
-
-            if (fill != null) {
-                sql = sql + " (description LIKE '%" + in + "%' )";
-                //  + " OR first LIKE '%" + in + "%' )";
-            }
-            ResultSet rs = stmt.executeQuery(sql);
-
-            DefaultTableModel model = new TableSupplies().supplyTable;
-            int row = 0;
-            while (rs.next()) {
-                model.addRow(new Object[]{});
-                model.setValueAt(rs.getString("itemNo"), row, 0);
-                model.setValueAt(rs.getString("description"), row, 1);
-                model.setValueAt(rs.getString("unit"), row, 2);
-                model.setValueAt(rs.getString("quant"), row, 3);
-                model.setValueAt(rs.getString("ucost"), row, 4);
-                model.setValueAt(rs.getString("type"), row, 5);
-                model.setValueAt(rs.getString("result"), row, 6);
-                model.setValueAt(rs.getString("date_s"), row, 7);
-                row++;
-
-            }
-
-            supplies.setModel(model);
-
-        }   catch (ClassNotFoundException ex) {
-                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                // TODO add your handling code here:
-    }//GEN-LAST:event_fillKeyReleased
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        String in = fill.getText();
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(new connection().connect);
-
-            Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM supply WHERE";
-
-            if (fill != null) {
-                sql = sql + " (description LIKE '%" + in + "%' )";
-                //  + " OR first LIKE '%" + in + "%' )";
-            }
-            ResultSet rs = stmt.executeQuery(sql);
-
-            DefaultTableModel model = new TableSupplies().supplyTable;
-            int row = 0;
-            while (rs.next()) {
-                model.addRow(new Object[]{});
-                model.setValueAt(rs.getString("itemNo"), row, 0);
-                model.setValueAt(rs.getString("description"), row, 1);
-                model.setValueAt(rs.getString("unit"), row, 2);
-                model.setValueAt(rs.getString("quant"), row, 3);
-                model.setValueAt(rs.getString("ucost"), row, 4);
-                model.setValueAt(rs.getString("type"), row, 5);
-                model.setValueAt(rs.getString("result"), row, 6);
-                model.setValueAt(rs.getString("date_s"), row, 7);
-                row++;
-
-            }
-
-            supplies.setModel(model);
-
-        }   catch (ClassNotFoundException ex) {
-                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-        int row = supplies.getSelectedRow();
-        Object obj = supplies.getValueAt(row, 0);
-        String id = obj.toString();
-
-        if (id == null) {
-            JOptionPane.showMessageDialog(rootPane, "Please select row!");
-        } else {
-
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                com.mysql.jdbc.Connection con = (com.mysql.jdbc.Connection) DriverManager.getConnection("jdbc:mysql://localhost/storage", "root", "");
-
-                String sql = "delete from supply where itemNo = ?";
-
-                com.mysql.jdbc.PreparedStatement pstmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(sql);
-
-                pstmt.setString(1, id);
-
-                int x = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this data?");
-
-                if (x == JOptionPane.YES_OPTION) {
-                    pstmt.executeUpdate();
-                    JOptionPane.showMessageDialog(rootPane, "Deleted");
-                    this.disTableSupply();
-                }
-
-            }   catch (ClassNotFoundException ex) {
-                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-                // TODO add your handling code here:
-    }//GEN-LAST:event_deleteActionPerformed
-
-    private void fill1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fill1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fill1MouseClicked
-
-    private void fill1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fill1KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fill1KeyPressed
-
-    private void fill1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fill1KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fill1KeyReleased
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        String in = fill.getText();
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(new connection().connect);
-
-            Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM supply WHERE";
-
-            if (fill != null) {
-                sql = sql + " (description LIKE '%" + in + "%' )";
-                //  + " OR first LIKE '%" + in + "%' )";
-            }
-            ResultSet rs = stmt.executeQuery(sql);
-
-            DefaultTableModel model = new TableSupplies().supplyTable;
-            int row = 0;
-            while (rs.next()) {
-                model.addRow(new Object[]{});
-                model.setValueAt(rs.getString("itemNo"), row, 0);
-                model.setValueAt(rs.getString("description"), row, 1);
-                model.setValueAt(rs.getString("unit"), row, 2);
-                model.setValueAt(rs.getString("quant"), row, 3);
-                model.setValueAt(rs.getString("ucost"), row, 4);
-                model.setValueAt(rs.getString("type"), row, 5);
-                model.setValueAt(rs.getString("result"), row, 6);
-                model.setValueAt(rs.getString("date_s"), row, 7);
-                row++;
-
-            }
-
-            supplies.setModel(model);
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        String des = description.getText();
-        String uni = unit.getSelectedItem().toString();
-        String quant = quantity.getText();
-        String ucost = uCost.getText();
-
-        int row = supplies.getSelectedRow();
-        if (row != -1) {
-
-            Object obj = supplies.getValueAt(row, 0);
-            String itemNo = obj.toString();
-
-            int pro;
-
-            int q = Integer.parseInt(quant);
-            int c = Integer.parseInt(ucost);
-
-            pro = c * q;
-            String proo = Integer.toString(pro);
-            // String date = now().toString();
-
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection con = DriverManager.getConnection("jdbc:mysql://localhost/storage?", "root", "");
-
-                String sql = "update supply set description = ?, unit = ?, quant = ?, ucost =?, result = ?, date_s = now() where itemNo = ? ;";
-
-                PreparedStatement pstmt = con.prepareStatement(sql);
-
-                pstmt.setString(1, des);
-                pstmt.setString(2, uni);
-                pstmt.setString(3, quant);
-                pstmt.setString(4, ucost);
-                pstmt.setString(5, proo);
-                //pstmt.setString(6, date);
-                pstmt.setString(6, itemNo);
-
-                pstmt.executeUpdate();
-                add.setAlwaysOnTop(false);
-                JOptionPane.showMessageDialog(rootPane, "Successfully Updated");
-                add.setVisible(false);
-
-                this.disTableSupply();
-
-                this.refreshSupply();
-
-                description.setText("");
-                unit.setSelectedIndex(0);
-                quantity.setText("");
-                uCost.setText("");
-            }   catch (ClassNotFoundException ex) {
-                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "PLease Select row");
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
-
-    private void tab2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab2MouseClicked
-      
-    }//GEN-LAST:event_tab2MouseClicked
-
     private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
         supply.setVisible(true);
         // TODO add your handling code here:
@@ -1058,6 +744,305 @@ public class admin extends javax.swing.JFrame {
         this.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tab2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab2MouseClicked
+
+    }//GEN-LAST:event_tab2MouseClicked
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        String des = description.getText();
+        String uni = unit.getSelectedItem().toString();
+        String quant = quantity.getText();
+        String ucost = uCost.getText();
+
+        int row = supplies.getSelectedRow();
+        if (row != -1) {
+
+            Object obj = supplies.getValueAt(row, 0);
+            String itemNo = obj.toString();
+
+            int pro;
+
+            int q = Integer.parseInt(quant);
+            int c = Integer.parseInt(ucost);
+
+            pro = c * q;
+            String proo = Integer.toString(pro);
+            // String date = now().toString();
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://localhost/storage?", "root", "");
+
+                String sql = "update supply set description = ?, unit = ?, quant = ?, ucost =?, result = ?, date_s = now() where itemNo = ? ;";
+
+                PreparedStatement pstmt = con.prepareStatement(sql);
+
+                pstmt.setString(1, des);
+                pstmt.setString(2, uni);
+                pstmt.setString(3, quant);
+                pstmt.setString(4, ucost);
+                pstmt.setString(5, proo);
+                //pstmt.setString(6, date);
+                pstmt.setString(6, itemNo);
+
+                pstmt.executeUpdate();
+                add.setAlwaysOnTop(false);
+                JOptionPane.showMessageDialog(rootPane, "Successfully Updated");
+                add.setVisible(false);
+
+                this.disTableSupply();
+
+                this.refreshSupply();
+
+                description.setText("");
+                unit.setSelectedIndex(0);
+                quantity.setText("");
+                uCost.setText("");
+            }   catch (ClassNotFoundException ex) {
+                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "PLease Select row");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        String in = fill.getText();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(new connection().connect);
+
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM supply WHERE";
+
+            if (fill != null) {
+                sql = sql + " (description LIKE '%" + in + "%' )";
+                //  + " OR first LIKE '%" + in + "%' )";
+            }
+            ResultSet rs = stmt.executeQuery(sql);
+
+            DefaultTableModel model = new TableSupplies().supplyTable;
+            int row = 0;
+            while (rs.next()) {
+                model.addRow(new Object[]{});
+                model.setValueAt(rs.getString("itemNo"), row, 0);
+                model.setValueAt(rs.getString("description"), row, 1);
+                model.setValueAt(rs.getString("unit"), row, 2);
+                model.setValueAt(rs.getString("quant"), row, 3);
+                model.setValueAt(rs.getString("ucost"), row, 4);
+                model.setValueAt(rs.getString("type"), row, 5);
+                model.setValueAt(rs.getString("result"), row, 6);
+                model.setValueAt(rs.getString("date_s"), row, 7);
+                row++;
+
+            }
+
+            supplies.setModel(model);
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void fill1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fill1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fill1KeyReleased
+
+    private void fill1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fill1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fill1KeyPressed
+
+    private void fill1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fill1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fill1MouseClicked
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        int row = supplies.getSelectedRow();
+        Object obj = supplies.getValueAt(row, 0);
+        String id = obj.toString();
+
+        if (id == null) {
+            JOptionPane.showMessageDialog(rootPane, "Please select row!");
+        } else {
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                com.mysql.jdbc.Connection con = (com.mysql.jdbc.Connection) DriverManager.getConnection("jdbc:mysql://localhost/storage", "root", "");
+
+                String sql = "delete from supply where itemNo = ?";
+
+                com.mysql.jdbc.PreparedStatement pstmt = (com.mysql.jdbc.PreparedStatement) con.prepareStatement(sql);
+
+                pstmt.setString(1, id);
+
+                int x = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this data?");
+
+                if (x == JOptionPane.YES_OPTION) {
+                    pstmt.executeUpdate();
+                    JOptionPane.showMessageDialog(rootPane, "Deleted");
+                    this.disTableSupply();
+                }
+
+            }   catch (ClassNotFoundException ex) {
+                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        String in = fill.getText();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(new connection().connect);
+
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM supply WHERE";
+
+            if (fill != null) {
+                sql = sql + " (description LIKE '%" + in + "%' )";
+                //  + " OR first LIKE '%" + in + "%' )";
+            }
+            ResultSet rs = stmt.executeQuery(sql);
+
+            DefaultTableModel model = new TableSupplies().supplyTable;
+            int row = 0;
+            while (rs.next()) {
+                model.addRow(new Object[]{});
+                model.setValueAt(rs.getString("itemNo"), row, 0);
+                model.setValueAt(rs.getString("description"), row, 1);
+                model.setValueAt(rs.getString("unit"), row, 2);
+                model.setValueAt(rs.getString("quant"), row, 3);
+                model.setValueAt(rs.getString("ucost"), row, 4);
+                model.setValueAt(rs.getString("type"), row, 5);
+                model.setValueAt(rs.getString("result"), row, 6);
+                model.setValueAt(rs.getString("date_s"), row, 7);
+                row++;
+
+            }
+
+            supplies.setModel(model);
+
+        }   catch (ClassNotFoundException ex) {
+            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void fillKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fillKeyReleased
+        String in = fill.getText();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(new connection().connect);
+
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM supply WHERE";
+
+            if (fill != null) {
+                sql = sql + " (description LIKE '%" + in + "%' )";
+                //  + " OR first LIKE '%" + in + "%' )";
+            }
+            ResultSet rs = stmt.executeQuery(sql);
+
+            DefaultTableModel model = new TableSupplies().supplyTable;
+            int row = 0;
+            while (rs.next()) {
+                model.addRow(new Object[]{});
+                model.setValueAt(rs.getString("itemNo"), row, 0);
+                model.setValueAt(rs.getString("description"), row, 1);
+                model.setValueAt(rs.getString("unit"), row, 2);
+                model.setValueAt(rs.getString("quant"), row, 3);
+                model.setValueAt(rs.getString("ucost"), row, 4);
+                model.setValueAt(rs.getString("type"), row, 5);
+                model.setValueAt(rs.getString("result"), row, 6);
+                model.setValueAt(rs.getString("date_s"), row, 7);
+                row++;
+
+            }
+
+            supplies.setModel(model);
+
+        }   catch (ClassNotFoundException ex) {
+            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fillKeyReleased
+
+    private void fillKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fillKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fillKeyPressed
+
+    private void fillMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fillMouseClicked
+        fill.setText("");
+        fill.setForeground(Color.black);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fillMouseClicked
+
+    private void updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateActionPerformed
+
+        int row = supplies.getSelectedRow();
+
+        if (row != -1) {
+            String itemNo = supplies.getModel().getValueAt(row, 0).toString();
+            Update.setVisible(true);
+            Update.setLocationRelativeTo(new admin());
+            //Update.setAlwaysOnTop(true);
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(new connection().connect);
+
+                String sql = "select * from supply where itemNo = ?";
+
+                PreparedStatement pstmt = con.prepareStatement(sql);
+
+                pstmt.setString(1, itemNo);
+                ResultSet rs = pstmt.executeQuery();
+
+                if (rs.next()) {
+                    description1.setText(rs.getString("description"));
+                    unit1.setSelectedItem(rs.getString("unit"));
+                    quantity1.setText(rs.getString("quant"));
+                    uCost1.setText(rs.getString("ucost"));
+                    type1.setSelectedItem(rs.getString("type"));
+
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Please select row!");
+                }
+
+            }   catch (ClassNotFoundException ex) {
+                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_updateActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        add.setVisible(true);
+        add.setLocationRelativeTo(null);
+        //title.setText("Add New Supply/Equipment");
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void suppliesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suppliesMouseClicked
+        update.setVisible(true);
+        delete.setVisible(true);
+    }//GEN-LAST:event_suppliesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1134,7 +1119,6 @@ public class admin extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
